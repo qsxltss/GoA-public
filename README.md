@@ -44,5 +44,5 @@ Make sure the training results from public have been saved.
 
 **Test black-box baseline:** The results of finetuning public model with recovery dataset, which represents the situation that adversary can not get any private information.
 ```
-
+./blackbox_test.sh --gpus 2,3 --dataset mnli --model "bert-base-cased" --obfus translinkguard
 ```
