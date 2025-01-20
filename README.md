@@ -23,7 +23,17 @@ pip install torch==1.11.0+cu113 torchvision==0.12.0+cu113 -f https://mirrors.ali
 * **evaluation:** evaluate_model.py
 * **arrowmatch:** arrowmatch.py
 * **blackbox:** blackbox_test.py
-## Evaluate Results
+
+## Experiments
+
+**Train public model:**
+```
+# Normal Train
+./train.sh --gpus 2,3 --dataset mnli --output_dir "results/train_results
+
+# TSQP Train
+./train_tsqp.sh --gpus 2,3 --dataset mnli --output_dir "results/tsqp_results
+```
 
 **Eval model:** 
 select the different parameters and run the following scripts to evaluate the results.
