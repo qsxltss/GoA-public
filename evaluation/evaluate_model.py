@@ -17,7 +17,7 @@ sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), '..')))
 import torch.nn as nn
 import pickle
 from pdb import set_trace as st
-from utils.bert_utils import *
+from utils.utils import *
 
 
 parser = argparse.ArgumentParser(description="loading")

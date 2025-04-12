@@ -15,7 +15,7 @@ from pynvml import nvmlInit, nvmlDeviceGetHandleByIndex, nvmlDeviceGetMemoryInfo
 from pdb import set_trace as st
 import sys 
 sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), '..')))
-from utils.bert_utils import *
+from utils.utils import *
 
 def parse_args():
     """Parse command-line arguments."""
@@ -78,8 +78,8 @@ def fine_tune(args):
 
     training_args = TrainingArguments(
         output_dir=f"{args.output_dir}/{args.dataset}",
-        evaluation_strategy='epoch',  # 模型的评估频率
-        save_strategy="epoch",  # 模型的保存频率
+        evaluation_strategy='epoch', 
+        save_strategy="epoch", 
         learning_rate=args.lr,
         per_device_train_batch_size=args.batch_size,
         per_device_eval_batch_size=args.batch_size,

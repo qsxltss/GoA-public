@@ -15,7 +15,7 @@ from pynvml import nvmlInit, nvmlDeviceGetHandleByIndex, nvmlDeviceGetMemoryInfo
 from pdb import set_trace as st
 import sys 
 sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), '..')))
-from utils.bert_utils import *
+from utils.utils import *
 import torch.nn as nn
 
 

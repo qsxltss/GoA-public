@@ -4,11 +4,12 @@
 ## Environment Setup
 Note that different library version may affect test results. 
 
-**BERT & GPT2-Base**
 ```
-conda env create -f envirionment_bert_.yml
+export HF_ENDPOINT="https://hf-mirror.com"
 
-conda activate bert
+conda env create -f environment.yml
+
+conda activate game-of-arrows1
 
 pip install torch==1.11.0+cu113 torchvision==0.12.0+cu113 -f https://mirrors.aliyun.com/pytorch-wheels/cu113/
 ```

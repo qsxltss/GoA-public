@@ -2,7 +2,7 @@ from pdb import set_trace as st
 import torch
 import numpy as np
 import random
-from utils.bert_utils import *
+from utils.utils import *
 from tqdm import tqdm
 import torch.nn as nn
 import torch.optim as optim
