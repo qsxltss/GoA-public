@@ -17,13 +17,17 @@ pip install torch==1.11.0+cu113 torchvision==0.12.0+cu113 -f https://mirrors.ali
 ## Code Structure
 * **results:**  The results of attack and defense. (Please download the *xxx* weights from if you are interested in our results)
     * **train_results:** The results of training from public pretrained models
-    * **tsqp_results:** The results of training from public pretrained models corresponding to TSQP methods (TSQP requires to change the training process)
     * **arrowmatch_results**: The results of ARROWMATCH across different datasets.
 * **data:** The dataset obtained by the adversary through querying the victim model accounts for 1% of all the training data.
 * **utils:** The functions in *ARROWMATCH* & *ARROWCLOAK*
-* **evaluation:** evaluate_model.py
-* **arrowmatch:** arrowmatch.py
-* **blackbox:** blackbox_test.py
+* **code:**  
+    * evaluate_model.py
+    * arrowmatch.py
+    * blackbox_test.py
+    * arrowcloak.py
+* **train:**
+    * train.py
+
 
 ## Experiments
 

@@ -1,0 +1,228 @@
+# QKV in TEE
+
+Time for S0: TokenEmbedding Forward: 0.2615 ms
+Time for           S0: Block-0.pre_atten_identity Transfer phase1: 0.3324 ms
+Time for           S0: Block-0.pre_atten_identity Transfer phase2: 0.3006 ms
+Time for S0: Block-0.pre_atten_identity Forward: 1.2085 ms
+Time for           S0: Block-0.attention.wq Enclave to CPU: 0.2968 ms
+Time for           S0: Block-0.attention.wq CPU to GPU: 0.1378 ms
+Time for S0: Block-0.attention.wq Forward: 0.9620 ms
+Time for           S0: Block-0.attention.wk Enclave to CPU: 0.2978 ms
+Time for           S0: Block-0.attention.wk CPU to GPU: 0.1409 ms
+Time for S0: Block-0.attention.wk Forward: 0.9522 ms
+Time for           S0: Block-0.attention.wv Enclave to CPU: 0.2999 ms
+Time for           S0: Block-0.attention.wv CPU to GPU: 0.1514 ms
+Time for S0: Block-0.attention.wv Forward: 0.9692 ms
+Time for           S0: Block-0.attention.multiply Forward Tensor Transfer: 0.0300 ms
+Time for           S0: Block-0.attention.multiply Recover Process: 6.1176 ms
+Time for S0: Block-0.attention.multiply Forward: 26.4094 ms
+Time for S0: Block-0.attention.wo Forward: 0.7432 ms
+Time for           S0: Block-0.post_atten_identity Transfer phase1: 0.3297 ms
+Time for           S0: Block-0.post_atten_identity Recover: 2.2089 ms
+Time for           S0: Block-0.post_atten_identity Transfer phase2: 0.3400 ms
+Time for S0: Block-0.post_atten_identity Forward: 2.9175 ms
+Time for S0: Block-0.attention_add Forward: 1.0920 ms
+Time for           S0: Block-0.pre_ffn_identity Transfer phase1: 0.2756 ms
+Time for           S0: Block-0.pre_ffn_identity Transfer phase2: 0.3059 ms
+Time for S0: Block-0.pre_ffn_identity Forward: 1.1220 ms
+Time for           S0: Block-0.FFN.w1 Enclave to CPU: 0.2754 ms
+Time for           S0: Block-0.FFN.w1 CPU to GPU: 0.1836 ms
+Time for S0: Block-0.FFN.w1 Forward: 1.7698 ms
+Time for           S0: Block-0.FFN.recover_identity1 Transfer phase1: 1.7862 ms
+Time for           S0: Block-0.FFN.recover_identity1 Recover: 9.0785 ms
+Time for           S0: Block-0.FFN.recover_identity1 Transfer phase2: 1.1668 ms
+Time for S0: Block-0.FFN.recover_identity1 Forward: 12.0895 ms
+Time for   S0: Block-0.FFN.relu Input Preprocess: 0.0045 ms
+Time for   S0: Block-0.FFN.relu ForwardFunc: 8.9409 ms
+Time for S0: Block-0.FFN.relu Forward: 8.9657 ms
+Time for           S0: Block-0.FFN.w2 Enclave to CPU: 1.1485 ms
+Time for           S0: Block-0.FFN.w2 CPU to GPU: 0.7777 ms
+Time for S0: Block-0.FFN.w2 Forward: 3.1312 ms
+Time for           S0: Block-0.post_ffn_identity Transfer phase1: 0.7946 ms
+Time for           S0: Block-0.post_ffn_identity Recover: 2.2674 ms
+Time for           S0: Block-0.post_ffn_identity Transfer phase2: 0.3321 ms
+Time for S0: Block-0.post_ffn_identity Forward: 3.4344 ms
+Time for S0: Block-0.ffn_add Forward: 1.1029 ms
+Time for S0: SecretNeuralNetwork Forward: 67.3974 ms
+
+
+Time for S0: TokenEmbedding Forward: 0.2379 ms
+Time for           S0: Block-0.pre_atten_identity Transfer phase1: 0.2697 ms
+Time for           S0: Block-0.pre_atten_identity Transfer phase2: 0.3073 ms
+Time for S0: Block-0.pre_atten_identity Forward: 1.1959 ms
+Time for           S0: Block-0.attention.wq Enclave to CPU: 0.2830 ms
+Time for           S0: Block-0.attention.wq CPU to GPU: 0.1125 ms
+Time for S0: Block-0.attention.wq Forward: 0.9005 ms
+Time for           S0: Block-0.attention.wk Enclave to CPU: 0.2766 ms
+Time for           S0: Block-0.attention.wk CPU to GPU: 0.1144 ms
+Time for S0: Block-0.attention.wk Forward: 0.8616 ms
+Time for           S0: Block-0.attention.wv Enclave to CPU: 0.2804 ms
+Time for           S0: Block-0.attention.wv CPU to GPU: 0.1538 ms
+Time for S0: Block-0.attention.wv Forward: 0.8957 ms
+Time for           S0: Block-0.attention.multiply Forward Tensor Transfer: 0.0141 ms
+Time for           S0: Block-0.attention.multiply Recover Process: 6.1991 ms
+Time for S0: Block-0.attention.multiply Forward: 26.8164 ms
+Time for S0: Block-0.attention.wo Forward: 0.6886 ms
+Time for           S0: Block-0.post_atten_identity Transfer phase1: 0.3271 ms
+Time for           S0: Block-0.post_atten_identity Recover: 2.0776 ms
+Time for           S0: Block-0.post_atten_identity Transfer phase2: 0.3424 ms
+Time for S0: Block-0.post_atten_identity Forward: 2.7893 ms
+Time for S0: Block-0.attention_add Forward: 1.0958 ms
+Time for           S0: Block-0.pre_ffn_identity Transfer phase1: 0.3140 ms
+Time for           S0: Block-0.pre_ffn_identity Transfer phase2: 0.3078 ms
+Time for S0: Block-0.pre_ffn_identity Forward: 1.1384 ms
+Time for           S0: Block-0.FFN.w1 Enclave to CPU: 0.2720 ms
+Time for           S0: Block-0.FFN.w1 CPU to GPU: 0.1457 ms
+Time for S0: Block-0.FFN.w1 Forward: 1.6310 ms
+Time for           S0: Block-0.FFN.recover_identity1 Transfer phase1: 1.7321 ms
+Time for           S0: Block-0.FFN.recover_identity1 Recover: 8.9083 ms
+Time for           S0: Block-0.FFN.recover_identity1 Transfer phase2: 1.1382 ms
+Time for S0: Block-0.FFN.recover_identity1 Forward: 11.8325 ms
+Time for   S0: Block-0.FFN.relu Input Preprocess: 0.0045 ms
+Time for   S0: Block-0.FFN.relu ForwardFunc: 8.8987 ms
+Time for S0: Block-0.FFN.relu Forward: 8.9238 ms
+Time for           S0: Block-0.FFN.w2 Enclave to CPU: 1.1883 ms
+Time for           S0: Block-0.FFN.w2 CPU to GPU: 0.7961 ms
+Time for S0: Block-0.FFN.w2 Forward: 3.1619 ms
+Time for           S0: Block-0.post_ffn_identity Transfer phase1: 0.7608 ms
+Time for           S0: Block-0.post_ffn_identity Recover: 2.2705 ms
+Time for           S0: Block-0.post_ffn_identity Transfer phase2: 0.3176 ms
+Time for S0: Block-0.post_ffn_identity Forward: 3.3886 ms
+Time for S0: Block-0.ffn_add Forward: 1.1010 ms
+Time for S0: SecretNeuralNetwork Forward: 66.8981 ms
+
+Time for S0: TokenEmbedding Forward: 0.2596 ms
+Time for           S0: Block-0.pre_atten_identity Transfer phase1: 0.2863 ms
+Time for           S0: Block-0.pre_atten_identity Transfer phase2: 0.3021 ms
+Time for S0: Block-0.pre_atten_identity Forward: 1.1463 ms
+Time for           S0: Block-0.attention.wq Enclave to CPU: 0.2933 ms
+Time for           S0: Block-0.attention.wq CPU to GPU: 0.1400 ms
+Time for S0: Block-0.attention.wq Forward: 0.9604 ms
+Time for           S0: Block-0.attention.wk Enclave to CPU: 0.3006 ms
+Time for           S0: Block-0.attention.wk CPU to GPU: 0.1404 ms
+Time for S0: Block-0.attention.wk Forward: 1.0102 ms
+Time for           S0: Block-0.attention.wv Enclave to CPU: 0.3028 ms
+Time for           S0: Block-0.attention.wv CPU to GPU: 0.1469 ms
+Time for S0: Block-0.attention.wv Forward: 0.9985 ms
+Time for           S0: Block-0.attention.multiply Forward Tensor Transfer: 0.0134 ms
+Time for           S0: Block-0.attention.multiply Recover Process: 6.3493 ms
+Time for S0: Block-0.attention.multiply Forward: 25.3377 ms
+Time for S0: Block-0.attention.wo Forward: 0.7105 ms
+Time for           S0: Block-0.post_atten_identity Transfer phase1: 0.3285 ms
+Time for           S0: Block-0.post_atten_identity Recover: 2.1675 ms
+Time for           S0: Block-0.post_atten_identity Transfer phase2: 0.3376 ms
+Time for S0: Block-0.post_atten_identity Forward: 2.8751 ms
+Time for S0: Block-0.attention_add Forward: 1.1361 ms
+Time for           S0: Block-0.pre_ffn_identity Transfer phase1: 0.2818 ms
+Time for           S0: Block-0.pre_ffn_identity Transfer phase2: 0.3135 ms
+Time for S0: Block-0.pre_ffn_identity Forward: 1.1344 ms
+Time for           S0: Block-0.FFN.w1 Enclave to CPU: 0.2792 ms
+Time for           S0: Block-0.FFN.w1 CPU to GPU: 0.1576 ms
+Time for S0: Block-0.FFN.w1 Forward: 1.6117 ms
+Time for           S0: Block-0.FFN.recover_identity1 Transfer phase1: 1.7149 ms
+Time for           S0: Block-0.FFN.recover_identity1 Recover: 8.8651 ms
+Time for           S0: Block-0.FFN.recover_identity1 Transfer phase2: 1.1322 ms
+Time for S0: Block-0.FFN.recover_identity1 Forward: 11.7664 ms
+Time for   S0: Block-0.FFN.relu Input Preprocess: 0.0041 ms
+Time for   S0: Block-0.FFN.relu ForwardFunc: 8.9676 ms
+Time for S0: Block-0.FFN.relu Forward: 8.9920 ms
+Time for           S0: Block-0.FFN.w2 Enclave to CPU: 1.1625 ms
+Time for           S0: Block-0.FFN.w2 CPU to GPU: 0.7844 ms
+Time for S0: Block-0.FFN.w2 Forward: 3.1381 ms
+Time for           S0: Block-0.post_ffn_identity Transfer phase1: 0.7658 ms
+Time for           S0: Block-0.post_ffn_identity Recover: 2.2125 ms
+Time for           S0: Block-0.post_ffn_identity Transfer phase2: 0.3221 ms
+Time for S0: Block-0.post_ffn_identity Forward: 3.3386 ms
+Time for S0: Block-0.ffn_add Forward: 1.0905 ms
+Time for S0: SecretNeuralNetwork Forward: 65.7427 ms
+
+
+Time for S0: TokenEmbedding Forward: 0.2353 ms
+Time for           S0: Block-0.pre_atten_identity Transfer phase1: 0.2856 ms
+Time for           S0: Block-0.pre_atten_identity Transfer phase2: 0.3185 ms
+Time for S0: Block-0.pre_atten_identity Forward: 1.1482 ms
+Time for           S0: Block-0.attention.wq Enclave to CPU: 0.2768 ms
+Time for           S0: Block-0.attention.wq CPU to GPU: 0.1125 ms
+Time for S0: Block-0.attention.wq Forward: 0.9012 ms
+Time for           S0: Block-0.attention.wk Enclave to CPU: 0.2823 ms
+Time for           S0: Block-0.attention.wk CPU to GPU: 0.1130 ms
+Time for S0: Block-0.attention.wk Forward: 0.8759 ms
+Time for           S0: Block-0.attention.wv Enclave to CPU: 0.2820 ms
+Time for           S0: Block-0.attention.wv CPU to GPU: 0.1156 ms
+Time for S0: Block-0.attention.wv Forward: 0.8564 ms
+Time for           S0: Block-0.attention.multiply Forward Tensor Transfer: 0.0143 ms
+Time for           S0: Block-0.attention.multiply Recover Process: 6.0732 ms
+Time for S0: Block-0.attention.multiply Forward: 25.9993 ms
+Time for S0: Block-0.attention.wo Forward: 0.7148 ms
+Time for           S0: Block-0.post_atten_identity Transfer phase1: 0.3304 ms
+Time for           S0: Block-0.post_atten_identity Recover: 2.0659 ms
+Time for           S0: Block-0.post_atten_identity Transfer phase2: 0.3543 ms
+Time for S0: Block-0.post_atten_identity Forward: 2.7916 ms
+Time for S0: Block-0.attention_add Forward: 1.0974 ms
+Time for           S0: Block-0.pre_ffn_identity Transfer phase1: 0.2775 ms
+Time for           S0: Block-0.pre_ffn_identity Transfer phase2: 0.3030 ms
+Time for S0: Block-0.pre_ffn_identity Forward: 1.0831 ms
+Time for           S0: Block-0.FFN.w1 Enclave to CPU: 0.2735 ms
+Time for           S0: Block-0.FFN.w1 CPU to GPU: 0.1924 ms
+Time for S0: Block-0.FFN.w1 Forward: 1.7710 ms
+Time for           S0: Block-0.FFN.recover_identity1 Transfer phase1: 1.6994 ms
+Time for           S0: Block-0.FFN.recover_identity1 Recover: 8.8909 ms
+Time for           S0: Block-0.FFN.recover_identity1 Transfer phase2: 1.1835 ms
+Time for S0: Block-0.FFN.recover_identity1 Forward: 11.8306 ms
+Time for   S0: Block-0.FFN.relu Input Preprocess: 0.0045 ms
+Time for   S0: Block-0.FFN.relu ForwardFunc: 8.7938 ms
+Time for S0: Block-0.FFN.relu Forward: 8.8177 ms
+Time for           S0: Block-0.FFN.w2 Enclave to CPU: 1.1382 ms
+Time for           S0: Block-0.FFN.w2 CPU to GPU: 0.7870 ms
+Time for S0: Block-0.FFN.w2 Forward: 3.1545 ms
+Time for           S0: Block-0.post_ffn_identity Transfer phase1: 0.7598 ms
+Time for           S0: Block-0.post_ffn_identity Recover: 2.2099 ms
+Time for           S0: Block-0.post_ffn_identity Transfer phase2: 0.3283 ms
+Time for S0: Block-0.post_ffn_identity Forward: 3.3383 ms
+Time for S0: Block-0.ffn_add Forward: 1.2290 ms
+Time for S0: SecretNeuralNetwork Forward: 66.0739 ms
+
+Time for S0: TokenEmbedding Forward: 0.2432 ms
+Time for           S0: Block-0.pre_atten_identity Transfer phase1: 0.2673 ms
+Time for           S0: Block-0.pre_atten_identity Transfer phase2: 0.3004 ms
+Time for S0: Block-0.pre_atten_identity Forward: 1.1156 ms
+Time for           S0: Block-0.attention.wq Enclave to CPU: 0.2830 ms
+Time for           S0: Block-0.attention.wq CPU to GPU: 0.1614 ms
+Time for S0: Block-0.attention.wq Forward: 0.9439 ms
+Time for           S0: Block-0.attention.wk Enclave to CPU: 0.2823 ms
+Time for           S0: Block-0.attention.wk CPU to GPU: 0.1223 ms
+Time for S0: Block-0.attention.wk Forward: 0.8755 ms
+Time for           S0: Block-0.attention.wv Enclave to CPU: 0.3102 ms
+Time for           S0: Block-0.attention.wv CPU to GPU: 0.1554 ms
+Time for S0: Block-0.attention.wv Forward: 0.9334 ms
+Time for           S0: Block-0.attention.multiply Forward Tensor Transfer: 0.0143 ms
+Time for           S0: Block-0.attention.multiply Recover Process: 6.2933 ms
+Time for S0: Block-0.attention.multiply Forward: 29.8700 ms
+Time for S0: Block-0.attention.wo Forward: 0.7927 ms
+Time for           S0: Block-0.post_atten_identity Transfer phase1: 0.3364 ms
+Time for           S0: Block-0.post_atten_identity Recover: 2.0664 ms
+Time for           S0: Block-0.post_atten_identity Transfer phase2: 0.3390 ms
+Time for S0: Block-0.post_atten_identity Forward: 2.7850 ms
+Time for S0: Block-0.attention_add Forward: 1.0865 ms
+Time for           S0: Block-0.pre_ffn_identity Transfer phase1: 0.3147 ms
+Time for           S0: Block-0.pre_ffn_identity Transfer phase2: 0.3068 ms
+Time for S0: Block-0.pre_ffn_identity Forward: 1.1315 ms
+Time for           S0: Block-0.FFN.w1 Enclave to CPU: 0.3252 ms
+Time for           S0: Block-0.FFN.w1 CPU to GPU: 0.2265 ms
+Time for S0: Block-0.FFN.w1 Forward: 1.7536 ms
+Time for           S0: Block-0.FFN.recover_identity1 Transfer phase1: 1.7016 ms
+Time for           S0: Block-0.FFN.recover_identity1 Recover: 9.1794 ms
+Time for           S0: Block-0.FFN.recover_identity1 Transfer phase2: 1.2977 ms
+Time for S0: Block-0.FFN.recover_identity1 Forward: 12.2435 ms
+Time for   S0: Block-0.FFN.relu Input Preprocess: 0.0041 ms
+Time for   S0: Block-0.FFN.relu ForwardFunc: 9.0716 ms
+Time for S0: Block-0.FFN.relu Forward: 9.0969 ms
+Time for           S0: Block-0.FFN.w2 Enclave to CPU: 1.1408 ms
+Time for           S0: Block-0.FFN.w2 CPU to GPU: 0.7851 ms
+Time for S0: Block-0.FFN.w2 Forward: 3.1352 ms
+Time for           S0: Block-0.post_ffn_identity Transfer phase1: 0.7656 ms
+Time for           S0: Block-0.post_ffn_identity Recover: 2.2418 ms
+Time for           S0: Block-0.post_ffn_identity Transfer phase2: 0.3824 ms
+Time for S0: Block-0.post_ffn_identity Forward: 3.4323 ms
+Time for S0: Block-0.ffn_add Forward: 1.1327 ms
+Time for S0: SecretNeuralNetwork Forward: 70.8055 ms

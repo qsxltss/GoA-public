@@ -61,12 +61,10 @@ def prepare_recover_data(model, trainset, batch_size, path, ratio=1):
     num_samples = int(len(trainset) * ratio)
     indices = random.sample(all_indices, num_samples)
 
-    # 初始化recover_data包含与trainset相同的字段（除了label）
     recover_data = {key: [] for key in trainset[0].keys() if key != 'label'}
-    recover_data['label'] = []  # 单独添加label字段，用于存放模型预测结果
-    true_labels = []  # 用于存放真实标签
+    recover_data['label'] = []  
+    true_labels = []  
     
-    # 逐个提取数据项并添加到recover_data中
     for idx in indices:
         item = trainset[idx]
         for key in recover_data.keys():
@@ -102,12 +100,11 @@ def prepare_recover_data(model, trainset, batch_size, path, ratio=1):
             predictions = torch.argmax(outputs, dim=1)
             for i in range(inputs["input_ids"].size(0)):
                 predicted_label = predictions[i].cpu().tolist()
-                recover_data["label"].append(predicted_label)  # 记录预测的label
+                recover_data["label"].append(predicted_label)  
                 tot += 1
-                # 比较预测结果和真实标签
                 if predicted_label == true_labels[len(recover_data["label"]) - 1]:
                     correct += 1
-    # 计算并输出正确比例
+
     accuracy = correct / tot
     print(f"预测的label和真实label的正确比例: {accuracy:.4f}")
     
@@ -269,7 +266,6 @@ def check_distance(model_mat, pre_model_mat, name=""):
     model_mat_cpu = model_mat.cpu().numpy()
     pre_model_mat_cpu = pre_model_mat.cpu().numpy()
 
-    # 初始化结果列表
     max_values_l2 = []
     second_max_values_l2 = []
     all_values_l2 = []  # 用于记录每一行与其他行的 L2 距离均值
@@ -277,10 +273,9 @@ def check_distance(model_mat, pre_model_mat, name=""):
     second_max_values_linf = []
     all_values_linf = []  # 用于记录每一行与其他行的 Linf 距离均值
     for i in range(model_mat_cpu.shape[0]):
-        #归一化
         model_mat_cpu[i] = model_mat_cpu[i] / np.linalg.norm(model_mat_cpu[i], ord=2)
         pre_model_mat_cpu[i] = pre_model_mat_cpu[i] / np.linalg.norm(pre_model_mat_cpu[i], ord=2)
-    # 计算每一行之间的距离
+        
     for i in range(model_mat_cpu.shape[0]):
         row1 = model_mat_cpu[i]
         row2 = pre_model_mat_cpu[i]
@@ -332,7 +327,6 @@ class SaveLossPlotCallback(TrainerCallback):
         self.output_dir = output_dir
 
     def on_log(self, args, state, control, **kwargs):
-        # 在日志记录时捕获训练损失
         if state.log_history:
             latest_log = state.log_history[-1]
             if 'loss' in latest_log:
@@ -341,7 +335,6 @@ class SaveLossPlotCallback(TrainerCallback):
                 self.eval_losses.append(latest_log['eval_loss'])
 
     def on_train_end(self, args, state, control, **kwargs):
-        # 训练结束后绘制损失曲线图
         plt.figure(figsize=(10, 5))
         plt.plot(self.train_losses, label='Training Loss')
         plt.plot(self.eval_losses, label='Evaluation Loss')

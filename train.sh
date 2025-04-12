@@ -1,9 +1,7 @@
 #!/bin/bash
 
-# 设置 Hugging Face 镜像地址
 export HF_ENDPOINT="https://hf-mirror.com"
 
-# 解析输入参数
 GPUS="6,7"
 DATASET="mnli"
 OUTPUT_DIR="results/train_results"
@@ -18,7 +16,6 @@ while [[ "$#" -gt 0 ]]; do
     shift
 done
 
-# 执行 Python 脚本
 python train/train.py \
     --gpus "$GPUS" \
     --dataset "$DATASET" \

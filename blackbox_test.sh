@@ -1,9 +1,7 @@
 #!/bin/bash
 
-# 设置 Hugging Face 镜像地址
 export HF_ENDPOINT="https://hf-mirror.com"
 
-# 解析输入参数
 GPUS="0,1"
 DATASET="mnli"
 BLACKBOX_DIR="results/blackbox_results"
@@ -18,8 +16,7 @@ while [[ "$#" -gt 0 ]]; do
     shift
 done
 
-# 执行 Python 脚本
-python blackbox/blackbox_test.py \
+python code/blackbox_test.py \
     --gpus "$GPUS" \
     --dataset "$DATASET" \
     --blackbox_dir "$BLACKBOX_DIR" \

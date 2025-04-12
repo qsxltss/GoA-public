@@ -1,9 +1,7 @@
 #!/bin/bash
 
-# 设置 Hugging Face 镜像地址
 export HF_ENDPOINT="https://hf-mirror.com"
 
-# 解析输入参数
 GPUS="0,1"
 DATASET="mnli"
 WEIGHT_DIR="results/train_results"
@@ -22,8 +20,8 @@ while [[ "$#" -gt 0 ]]; do
     shift
 done
 
-# 执行 Python 脚本
-python arrowmatch/arrowmatch.py \
+
+python code/arrowmatch.py \
     --gpus "$GPUS" \
     --dataset "$DATASET" \\
     --weight_dir "$WEIGHT_DIR" \
