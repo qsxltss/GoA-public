@@ -6,22 +6,23 @@ export HF_ENDPOINT="https://hf-mirror.com"
 # 解析输入参数
 GPUS="0,1"
 DATASET="mnli"
-MODEL="bert-base-cased"
-OUTPUT_DIR="results/tsqp_results"
+WEIGHT_DIR="results/train_results"
+RESTORE_DIR="results/arrowcloak_results"
+
 while [[ "$#" -gt 0 ]]; do
     case $1 in
         --gpus) GPUS="$2"; shift ;;
         --dataset) DATASET="$2"; shift ;;
-        --model) MODEL="$2"; shift ;;
-        --output_dir) OUTPUT_DIR="$2"; shift ;;
+        --weight_dir) WEIGHT_DIR="$2"; shift ;;
+        --restore_dir) RESTORE_DIR="$2"; shift ;;
         *) echo "Unknown parameter passed: $1"; exit 1 ;;
     esac
     shift
 done
 
 # 执行 Python 脚本
-python train/train_tsqp.py \
+python arrowcloak/arrowcloak.py \
     --gpus "$GPUS" \
     --dataset "$DATASET" \
-    --model "$MODEL" \
-    --output_dir "$OUTPUT_DIR"
+    --weight_dir "$WEIGHT_DIR" \
+    --restore_dir "$RESTORE_DIR" \

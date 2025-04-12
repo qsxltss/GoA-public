@@ -6,7 +6,6 @@ export HF_ENDPOINT="https://hf-mirror.com"
 # 解析输入参数
 GPUS="0,1"
 DATASET="cola"
-MODEL="bert-base-cased"
 OUTPUT_DIR="evaluate_results"
 OBFUS="none"
 
@@ -14,7 +13,6 @@ while [[ "$#" -gt 0 ]]; do
     case $1 in
         --gpus) GPUS="$2"; shift ;;
         --dataset) DATASET="$2"; shift ;;
-        --model) MODEL="$2"; shift ;;
         --output_dir) OUTPUT_DIR="$2"; shift ;;
         --obfus) OBFUS="$2"; shift ;;
         *) echo "Unknown parameter passed: $1"; exit 1 ;;
@@ -26,6 +24,5 @@ done
 python evaluation/evaluate_model.py \
     --gpus "$GPUS" \
     --dataset "$DATASET" \
-    --model "$MODEL" \
     --output_dir "$OUTPUT_DIR" \
     --obfus "$OBFUS"

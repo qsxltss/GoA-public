@@ -33,7 +33,6 @@ parser.add_argument("--weight_decay", default=1e-4, type=float, help="Weight dec
 parser.add_argument("--gpus", type=str, default="2,3", help="gpu ids")
 parser.add_argument("--recover_lr", default=1e-5, type=float, help="Learning rate for recovering")
 parser.add_argument("--recover_epochs", default=3, type=int, help="epochs for recovering")
-parser.add_argument("--obfus", default="translinkguard", type=str, help="obfuscation method")
 parser.add_argument("--blackbox_dir", default="results/blackbox_results", type=str, help="blackbox model dir")
 parser.add_argument("--recover_data_dir", default="data/recover_data", type=str, help="data for recovering finetune")
 args = parser.parse_args()
@@ -50,12 +49,12 @@ args.recover_data_dir = f"{args.recover_data_dir}/{model_name}/{args.dataset}"
 os.makedirs(args.blackbox_dir, exist_ok=True)
 os.makedirs(args.recover_data_dir, exist_ok=True)
 set_seed()
-
 # number of classes in the dataset
 actual_task = "mnli" if args.dataset == "mnli-mm" else args.dataset
 num_labels = 3 if actual_task.startswith("mnli") else (1 if actual_task == "stsb" else 2)
 validation_key = "validation_mismatched" if args.dataset == "mnli-mm" else "validation_matched" if args.dataset == "mnli" else "validation"
-
+set_seed()
+model = AutoModelForSequenceClassification.from_pretrained(args.model, num_labels=num_labels)
 # Prepare data
 print("Preparing data..")
 task_to_keys = {

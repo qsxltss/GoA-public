@@ -29,19 +29,16 @@ pip install torch==1.11.0+cu113 torchvision==0.12.0+cu113 -f https://mirrors.ali
 
 **Train public model:**
 ```
-# Normal Train
+# Train
 ./train.sh --gpus 2,3 --dataset mnli --output_dir "results/train_results
-
-# TSQP Train
-./train_tsqp.sh --gpus 2,3 --dataset mnli --output_dir "results/tsqp_results
 ```
 
 **Eval model:** 
 select the different parameters and run the following scripts to evaluate the results.
 ```
-./evaluate_model.sh --dataset "mnli" --model "bert-base-cased" --obfus "translinkguard" --gpus 0,1              #for ARROWMATCH results
+./evaluate_model.sh --dataset "mnli" --obfus "translinkguard" --gpus 0,1              #for ARROWMATCH results
  
- ./evaluate_model.sh --dataset "mnli" --model "bert-base-cased" --obfus "none"  --gpus 0,1                      #for training results
+ ./evaluate_model.sh --dataset "mnli" --obfus "none"  --gpus 0,1                      #for training results
 
 ```
 
@@ -50,10 +47,10 @@ select the different parameters and run the following scripts to evaluate the re
 Make sure the training results from public have been saved. 
 
 ```
-./arrowmatch.sh --gpus 0,1 --dataset mnli --model "bert-base-cased" --obfus translinkguard
+./arrowmatch.sh --gpus 0,1 --dataset mnli  --obfus translinkguard
 ```
 
 **Test black-box baseline:** The results of finetuning public model with recovery dataset, which represents the situation that adversary can not get any private information.
 ```
-./blackbox_test.sh --gpus 2,3 --dataset mnli --model "bert-base-cased" --obfus translinkguard
+./blackbox_test.sh --gpus 2,3 --dataset mnli --obfus translinkguard
 ```

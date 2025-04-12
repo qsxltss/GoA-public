@@ -4,9 +4,8 @@
 export HF_ENDPOINT="https://hf-mirror.com"
 
 # 解析输入参数
-GPUS="0,1"
+GPUS="6,7"
 DATASET="mnli"
-MODEL="bert-base-cased"
 OUTPUT_DIR="results/train_results"
 while [[ "$#" -gt 0 ]]; do
     case $1 in
@@ -23,5 +22,4 @@ done
 python train/train.py \
     --gpus "$GPUS" \
     --dataset "$DATASET" \
-    --model "$MODEL" \
     --output_dir "$OUTPUT_DIR"

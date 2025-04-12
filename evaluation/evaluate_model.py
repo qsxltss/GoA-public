@@ -41,6 +41,10 @@ os.makedirs(f"{args.output_dir}/{args.obfus}/{args.dataset}", exist_ok=True)
 
 if args.model == "bert-base-cased":
     model_name = "bert"
+else:
+    print("The code about ViT and GPT2 will be published before AE phase.")
+    print("Please try bert-base-cased for now.")
+    raise ValueError("Invalid model name")
 
 # number of classes in the dataset
 actual_task = "mnli" if args.dataset == "mnli-mm" else args.dataset

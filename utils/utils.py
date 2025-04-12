@@ -1,6 +1,7 @@
 import sys
 import time
 import torch
+import torch.nn as nn
 import os
 import datasets
 import torchvision
@@ -112,6 +113,40 @@ def prepare_recover_data(model, trainset, batch_size, path, ratio=1):
     
     with open(path, "w") as f:
         json.dump(recover_data, f, indent=4)
+
+def loss1(model):
+    loss = 0
+    for name, param in model.named_parameters():
+        if "query.weight" in name or "key.weight" in name or "value.weight" in name or "output.dense.weight" in name or "intermediate.dense.weight" in name or "output.dense.bias" in name or "intermediate.dense.bias" in name:
+            loss += torch.sum(param ** 2)
+    return loss
+
+def loss2(model, pre_model):
+    loss = 0
+    #print()
+    for name, param in model.named_parameters():
+        if "query.weight" in name or "key.weight" in name or "value.weight" in name or "output.dense.weight" in name or "intermediate.dense.weight" in name or "output.dense.bias" in name or "intermediate.dense.bias" in name:
+            name = name.replace("module.", "")
+            pre_data = pre_model.state_dict()[name]
+            pre_data = pre_data.to(param.device)
+            loss += torch.sum((param - pre_data) ** 2)
+    return torch.sqrt(loss+1e-8)
+
+class CustomTrainer(Trainer):
+    def __init__(self, pre_model, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        self.pre_model = pre_model
+        
+    def compute_loss(self, model, inputs, return_outputs=False):
+        outputs = model(**inputs)
+        logits = outputs.logits
+        labels = inputs["labels"]
+
+        loss_fn = nn.CrossEntropyLoss()
+        loss_1 = 1e-4*loss1(model)
+        loss_2 = 1e-4*loss2(model, self.pre_model)
+        loss = loss_fn(logits, labels)+loss_1-loss_2
+        return (loss, outputs) if return_outputs else loss
 
 
 def row_restore_perm(pre_model_mat, model_mat, threshold=0.0):
@@ -316,3 +351,4 @@ class SaveLossPlotCallback(TrainerCallback):
         plt.legend()
         plt.savefig(os.path.join(self.output_dir, 'loss_plot.png'))
         plt.close()
+

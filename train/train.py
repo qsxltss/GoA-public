@@ -30,13 +30,16 @@ def parse_args():
     parser.add_argument("--output_dir", default="results/train_results", type=str, help="Directory to save fine-tuned model")
     parser.add_argument("--seed", default=42, type=int, help="Seed for reproducibility")
     parser.add_argument("--gpus", default="2,3", type=str, help="GPU to use")
+    parser.add_argument("--tsqp", default="false", type=str, help="Whether to use TSQP")
     return parser.parse_args()
 
 
 def fine_tune(args):
     """Fine-tune the model with specified arguments."""
     set_seed(args.seed)
-    
+    if args.model == "bert-base-cased":
+        model_name = "bert"
+    args.output_dir = f"{args.output_dir}/{model_name}"
     task_to_keys = {
         "cola": ("sentence", None),
         "mnli": ("premise", "hypothesis"),
@@ -87,8 +90,7 @@ def fine_tune(args):
         weight_decay=args.weight_decay,
         logging_dir="./logs", 
         logging_steps=100,  
-        dataloader_num_workers=4,  
-        local_rank=-1,  
+        dataloader_num_workers=4,   
     )
 
     def compute_metrics(eval_pred):
@@ -101,14 +103,27 @@ def fine_tune(args):
 
     # Initialize Trainer
     print("Initializing Trainer...")
-    trainer = Trainer(
-        model=model,
-        args=training_args,
-        train_dataset=tokenized_datasets["train"],
-        eval_dataset=tokenized_datasets[validation_key],
-        tokenizer=tokenizer,
-        compute_metrics=compute_metrics,
-    )
+    if args.tsqp == "true":
+        set_seed()
+        pre_model = AutoModelForSequenceClassification.from_pretrained(args.model, num_labels=num_labels)
+        trainer = CustomTrainer(
+            model=model,
+            pre_model = pre_model,
+            args=training_args,
+            train_dataset=tokenized_datasets["train"],
+            eval_dataset=tokenized_datasets[validation_key],
+            tokenizer=tokenizer,
+            compute_metrics=compute_metrics,
+        )
+    else:
+        trainer = Trainer(
+            model=model,
+            args=training_args,
+            train_dataset=tokenized_datasets["train"],
+            eval_dataset=tokenized_datasets[validation_key],
+            tokenizer=tokenizer,
+            compute_metrics=compute_metrics,
+        )
 
     # Evaluate the pre-trained model
     print("Evaluate the pre-trained model...")

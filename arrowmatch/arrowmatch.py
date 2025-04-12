@@ -51,7 +51,7 @@ os.environ["TOKENIZERS_PARALLELISM"] = "false"
 if args.model == "bert-base-cased":
     model_name = "bert"
 else:
-    print("The code about ViT and GPT2 will be published later.")
+    print("The code about ViT and GPT2 will be published before AE phase.")
     print("Please try bert-base-cased for now.")
     raise ValueError("Invalid model name")
 
@@ -91,11 +91,18 @@ trainset, evalset, tokenizer = prepare_data(actual_task, args.model, validation_
 print("Building model..")
 set_seed()
 if args.obfus == "tsqp":
-    model = AutoModelForSequenceClassification.from_pretrained(
-        args.weight_dir_tsqp,  #
-        num_labels=num_labels,
-        use_safetensors=True 
-    )
+    if os.path.exists(args.weight_dir_tsqp):
+        model = AutoModelForSequenceClassification.from_pretrained(
+            args.weight_dir_tsqp,  #
+            num_labels=num_labels,
+            use_safetensors=True 
+        )
+    else:
+        model = AutoModelForSequenceClassification.from_pretrained(
+            args.weight_dir, 
+            num_labels=num_labels,
+            use_safetensors=True 
+        )
 else:
     model = AutoModelForSequenceClassification.from_pretrained(
         args.weight_dir, 
