@@ -77,6 +77,10 @@ Make sure the training results from public have been saved.
 ```
 cd tee
 
+conda env create -f tee_environment.yml
+
+conda activate tee_environment
+
 make 
 
 ./tee_code/run.sh
