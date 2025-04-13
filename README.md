@@ -33,13 +33,12 @@ pip install torch==1.11.0+cu113 torchvision==0.12.0+cu113 -f https://mirrors.ali
 
 ## Experiments
 
-**Train public model**
+### Train public model
 ```
-# Train
-./train.sh --gpus 2,3 --dataset mnli --output_dir "results/train_results
+./train.sh --gpus 0,1 --dataset sst2 --output_dir "results/train_results
 ```
 
-**Eval model:** 
+### Eval model 
 Select the different parameters and run the following scripts to evaluate the results.
 ```
 ./evaluate_model.sh --dataset "sst2" --obfus "translinkguard" --gpus 0,1              #for ARROWMATCH results
@@ -48,7 +47,7 @@ Select the different parameters and run the following scripts to evaluate the re
 
 ```
 
-**Try ARROWMATCH:** 
+### Try ARROWMATCH
 Select different datasets and different obfuscation methods to verify the effectiveness of *ARROWMATCH*.
 
 Make sure the training results from public have been saved. 
@@ -57,7 +56,8 @@ Make sure the training results from public have been saved.
 ./arrowmatch.sh --gpus 0,1 --dataset sst2  --obfus translinkguard
 ```
 
-**Try ARROWCLOAK:** Select different datasets to verify the defense of *ARROWCLOAK*.
+### Try ARROWCLOAK
+Select different datasets to verify the defense of *ARROWCLOAK*.
 
 Make sure the training results from public have been saved. 
 
@@ -70,7 +70,7 @@ Make sure the training results from public have been saved.
 ./blackbox_test.sh --gpus 0,1 --dataset sst2 --obfus translinkguard
 ```
 
-**Try SGX experiment**
+### Try SGX experiment
 
 **NOTE**: The code can only run on a machine with SGX hardware, so please **Make sure your hardware supports SGX.**
 
