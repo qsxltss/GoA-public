@@ -76,7 +76,6 @@ def parse_args():
     return args
 
 if __name__=="__main__":
-    ## 对应的conda环境是goten_py10
     args = parse_args()
     
     cpu_num = 1 
@@ -159,13 +158,9 @@ if __name__=="__main__":
         LinearEnclaveMode=linear_mode,
         NonLinearEnclaveMode=nonlinear_mode,
         token=input_tokens,
-        ## 使用arrowcloak保护
         recover_obfus = recover_obfus,
-        ## 使用otp保护
         recover_otp =  recover_otp,
-        ## 使用tsqp保护
         recover_tsqp = recover_tsqp,
-        ## 使用shadownet保护
         recover_shadownet = recover_shadownet,
     )
     layers = model_constructor.sgx_layers
