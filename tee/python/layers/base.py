@@ -108,16 +108,8 @@ class SecretLayerBase(TensorLoader):
         ):
             # self.transfer_enclave_to_cpu(transfer_tensor)
             # self.transfer_cpu_to_gpu(transfer_tensor)
-            with NamedTimerInstance(
-                f"          S{self.sid}: {self.LayerName} Enclave to CPU", 
-                verbose_level=VerboseLevel.LAYER
-            ):
-                self.transfer_enclave_to_cpu(transfer_tensor)
-            with NamedTimerInstance(
-                f"          S{self.sid}: {self.LayerName} CPU to GPU", 
-                verbose_level=VerboseLevel.LAYER
-            ):
-                self.transfer_cpu_to_gpu(transfer_tensor)
+            self.transfer_enclave_to_cpu(transfer_tensor)
+            self.transfer_cpu_to_gpu(transfer_tensor)
                 
         """CPU to Enclave"""
         if (
@@ -143,16 +135,8 @@ class SecretLayerBase(TensorLoader):
         ):
             # self.transfer_gpu_to_cpu(transfer_tensor)
             # self.transfer_cpu_to_enclave(transfer_tensor)
-            with NamedTimerInstance(
-                f"          S{self.sid}: {self.LayerName} GPU to CPU", 
-                verbose_level=VerboseLevel.LAYER
-            ):
-                self.transfer_gpu_to_cpu(transfer_tensor)
-            with NamedTimerInstance(
-                f"          S{self.sid}: {self.LayerName} CPU to Enclave", 
-                verbose_level=VerboseLevel.LAYER
-            ):
-                self.transfer_cpu_to_enclave(transfer_tensor)
+            self.transfer_gpu_to_cpu(transfer_tensor)
+            self.transfer_cpu_to_enclave(transfer_tensor)
                 
         "GPU to CPU"
         if (

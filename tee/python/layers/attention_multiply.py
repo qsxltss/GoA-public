@@ -9,7 +9,7 @@ from python.utils.basic_utils import ExecutionModeOptions
 from python.utils.timer_utils import NamedTimerInstance, VerboseLevel
 from python.enclave_interfaces import GlobalTensor as gt
 from pdb import set_trace as st
-from tee_code.recover import *
+from python.recover import *
 import numpy as np
 
 
@@ -140,37 +140,37 @@ class SecretAttentionMultiply(SecretLayerBase):
         with NamedTimerInstance(
             f"S{self.sid}: {self.LayerName} Forward", verbose_level=VerboseLevel.LAYER
         ):
-            with NamedTimerInstance(f"          S{self.sid}: {self.LayerName} Forward Tensor Transfer", verbose_level=VerboseLevel.LAYER):
-                self.forward_tensor_transfer()
+            #with NamedTimerInstance(f"          S{self.sid}: {self.LayerName} Forward Tensor Transfer", verbose_level=VerboseLevel.LAYER):
+            self.forward_tensor_transfer()
                 
-                if self.EnclaveMode == ExecutionModeOptions.CPU:
-                    xq = self.get_cpu("input_query")
-                    xk = self.get_cpu("input_key")
-                    xv = self.get_cpu("input_value")
-                elif self.EnclaveMode == ExecutionModeOptions.GPU:
-                    xq = self.get_gpu("input_query")
-                    xk = self.get_gpu("input_key")
-                    xv = self.get_gpu("input_value")
-                else:
-                    raise RuntimeError("Attention multiply not implemented for Enclave mode")
             if self.EnclaveMode == ExecutionModeOptions.CPU:
-                with NamedTimerInstance(f"          S{self.sid}: {self.LayerName} Recover Process", verbose_level=VerboseLevel.LAYER):
-                    if self.recover:
-                        xq = recover(xq, self.X, self.deshuffle1, self.mask_vector1,  self.otp1, self.scale1_1, self.scale2_1)
-                        xk = recover(xk, self.X, self.deshuffle2, self.mask_vector2, self.otp2, self.scale1_2, self.scale2_2)
-                        xv = recover(xv, self.X, self.deshuffle3, self.mask_vector3, self.otp3, self.scale1_3, self.scale2_3)
-                    elif self.recover_otp:
-                        xq = recover_otp(xq, self.otp1)
-                        xk = recover_otp(xk, self.otp2)
-                        xv = recover_otp(xv, self.otp3)
-                    elif self.recover_tsqp:
-                        xq = recover_tsqp(xq, self.otp1, self.scale1_1)
-                        xk = recover_tsqp(xk, self.otp2, self.scale1_2)
-                        xv = recover_tsqp(xv, self.otp3, self.scale1_3)
-                    elif self.recover_shadownet:
-                        xq = recover_shadownet(xq, self.deshuffle1, self.mask_vector1, self.otp1, self.scale1_1)
-                        xk = recover_shadownet(xk, self.deshuffle2, self.mask_vector2, self.otp2, self.scale1_2)
-                        xv = recover_shadownet(xv, self.deshuffle3, self.mask_vector3, self.otp3, self.scale1_3)
+                xq = self.get_cpu("input_query")
+                xk = self.get_cpu("input_key")
+                xv = self.get_cpu("input_value")
+            elif self.EnclaveMode == ExecutionModeOptions.GPU:
+                xq = self.get_gpu("input_query")
+                xk = self.get_gpu("input_key")
+                xv = self.get_gpu("input_value")
+            else:
+                raise RuntimeError("Attention multiply not implemented for Enclave mode")
+            if self.EnclaveMode == ExecutionModeOptions.CPU:
+                #with NamedTimerInstance(f"          S{self.sid}: {self.LayerName} Recover Process", verbose_level=VerboseLevel.LAYER):
+                if self.recover:
+                    xq = recover(xq, self.X, self.deshuffle1, self.mask_vector1,  self.otp1, self.scale1_1, self.scale2_1)
+                    xk = recover(xk, self.X, self.deshuffle2, self.mask_vector2, self.otp2, self.scale1_2, self.scale2_2)
+                    xv = recover(xv, self.X, self.deshuffle3, self.mask_vector3, self.otp3, self.scale1_3, self.scale2_3)
+                elif self.recover_otp:
+                    xq = recover_otp(xq, self.otp1)
+                    xk = recover_otp(xk, self.otp2)
+                    xv = recover_otp(xv, self.otp3)
+                elif self.recover_tsqp:
+                    xq = recover_tsqp(xq, self.otp1, self.scale1_1)
+                    xk = recover_tsqp(xk, self.otp2, self.scale1_2)
+                    xv = recover_tsqp(xv, self.otp3, self.scale1_3)
+                elif self.recover_shadownet:
+                    xq = recover_shadownet(xq, self.deshuffle1, self.mask_vector1, self.otp1, self.scale1_1)
+                    xk = recover_shadownet(xk, self.deshuffle2, self.mask_vector2, self.otp2, self.scale1_2)
+                    xv = recover_shadownet(xv, self.deshuffle3, self.mask_vector3, self.otp3, self.scale1_3)
             bsz, seqlen, _ = xq.shape
             start_pos = 0
             xq = xq.view(bsz, seqlen, self.n_local_heads, self.head_dim)

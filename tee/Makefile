@@ -1,5 +1,6 @@
 ######## SGX SDK Settings ########
 
+# change the SGX_SDK path to your SGX SDK installation path
 SGX_SDK ?= /home/user/sgx-2.15/sgxsdk
 
 SGX_MODE ?= HW

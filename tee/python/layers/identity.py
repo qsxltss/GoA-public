@@ -5,7 +5,7 @@ from python.enclave_interfaces import GlobalTensor as gt
 from pdb import set_trace as st
 from python.utils.basic_utils import ExecutionModeOptions
 import torch.nn as nn
-from tee_code.recover import *
+from python.recover import *
 import numpy as np
 import torch
 
@@ -107,34 +107,27 @@ class SecretIdentityLayer(SecretNonlinearLayer):
 
     def forward(self):
         with NamedTimerInstance(f"S{self.sid}: {self.LayerName} Forward", verbose_level=VerboseLevel.LAYER):
-            with NamedTimerInstance(f"          S{self.sid}: {self.LayerName} Transfer phase1", verbose_level=VerboseLevel.LAYER):
-                self.transfer_to_cpu("input")
-                input = self.get_cpu("input")
+            self.transfer_to_cpu("input")
+            input = self.get_cpu("input")
             if self.recover == True and ("recover" in self.LayerName or "post" in self.LayerName):
-                with NamedTimerInstance(f"          S{self.sid}: {self.LayerName} Recover", verbose_level=VerboseLevel.LAYER):    
-                    output = input.clone()  
-                    output = recover(output, self.X, self.deshuffle, self.mask_vector, self.otp, self.scale1, self.scale2)
+                output = input.clone()  
+                output = recover(output, self.X, self.deshuffle, self.mask_vector, self.otp, self.scale1, self.scale2)
             elif self.recover_otp == True and ("recover" in self.LayerName or "post" in self.LayerName):
-                with NamedTimerInstance(f"          S{self.sid}: {self.LayerName} Recover", verbose_level=VerboseLevel.LAYER):    
-                    output = input.clone()
-                    output = recover_otp(output, self.otp)
+                output = input.clone()
+                output = recover_otp(output, self.otp)
             elif self.recover_tsqp == True and ("recover" in self.LayerName or "post" in self.LayerName):
-                with NamedTimerInstance(f"          S{self.sid}: {self.LayerName} Recover", verbose_level=VerboseLevel.LAYER):    
-                    output = input.clone()
-                    output = recover_tsqp(output, self.otp, self.scale1)
+                output = input.clone()
+                output = recover_tsqp(output, self.otp, self.scale1)
             elif self.recover_shadownet == True and ("recover" in self.LayerName or "post" in self.LayerName):
-                with NamedTimerInstance(f"          S{self.sid}: {self.LayerName} Recover", verbose_level=VerboseLevel.LAYER):    
-                    output = input.clone()
-                    output = recover_shadownet(output, self.deshuffle, self.mask_vector, self.otp, self.scale1)
+                output = input.clone()
+                output = recover_shadownet(output, self.deshuffle, self.mask_vector, self.otp, self.scale1)
             elif "pre_ffn" in self.LayerName or "pre_atten" in self.LayerName:
                 output = input.clone()
                 output = nn.LayerNorm(self.InputShape[-1])(output)
             else:
                 output = input.clone()
-            with NamedTimerInstance(f"          S{self.sid}: {self.LayerName} Transfer phase2", verbose_level=VerboseLevel.LAYER):
-                self.set_cpu("output", output)
-                # print("Identity: ", input[0,0,0,:10])
-                self.transfer_from_cpu("output")
+            self.set_cpu("output", output)
+            self.transfer_from_cpu("output")
 
 
     def backward(self):
