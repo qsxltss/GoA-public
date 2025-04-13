@@ -9,7 +9,7 @@ from python.utils.basic_utils import ExecutionModeOptions
 from python.utils.timer_utils import NamedTimerInstance, VerboseLevel
 from python.enclave_interfaces import GlobalTensor as gt
 from pdb import set_trace as st
-from code.recover import *
+from tee_code.recover import *
 import numpy as np
 
 

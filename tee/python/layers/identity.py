@@ -5,7 +5,7 @@ from python.enclave_interfaces import GlobalTensor as gt
 from pdb import set_trace as st
 from python.utils.basic_utils import ExecutionModeOptions
 import torch.nn as nn
-from code.recover import *
+from tee_code.recover import *
 import numpy as np
 import torch
 
