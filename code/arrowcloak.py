@@ -111,14 +111,14 @@ print("recover_data prepared!")
 # Trainer
 training_args = TrainingArguments(
     output_dir=f"{args.output_dir}/{args.dataset}",
-    eval_strategy='no',  # 模型的评估频率
-    save_strategy="epoch",  # 模型的保存频率
+    eval_strategy='no',  
+    save_strategy="epoch", 
     learning_rate=args.lr,
     per_device_train_batch_size=args.bs,
     per_device_eval_batch_size=args.bs,
     num_train_epochs=args.epochs,
     weight_decay=args.weight_decay,
-    dataloader_num_workers=4,  # 使用数据加载器的并行线程
+    dataloader_num_workers=4,  
 )
 def compute_metrics(eval_pred):
     predictions, labels = eval_pred

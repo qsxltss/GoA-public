@@ -90,22 +90,6 @@ class SecretAddLayer(SecretNonlinearLayer):
                 print(f"PrevLayer0 {self.PrevLayer[0].LayerName} mode {self.PrevLayer[0].EnclaveMode}")
                 print(f"PrevLayer1 {self.PrevLayer[1].LayerName} mode {self.PrevLayer[1].EnclaveMode}")
             
-            # if self.PrevLayer[0] is not None and self.PrevLayer[0].EnclaveMode is ExecutionModeOptions.Enclave:
-            #     self.transfer_enclave_to_cpu("input1")
-            # if self.PrevLayer[0] is not None and self.PrevLayer[0].EnclaveMode is ExecutionModeOptions.GPU:
-            #     self.transfer_gpu_to_cpu("input1")
-            # if self.PrevLayer[1] is not None and self.PrevLayer[1].EnclaveMode is ExecutionModeOptions.Enclave:
-            #     self.transfer_enclave_to_cpu("input2")
-            # if self.PrevLayer[1] is not None and self.PrevLayer[1].EnclaveMode is ExecutionModeOptions.GPU:
-            #     self.transfer_gpu_to_cpu("input2")
-            # input1 = self.get_cpu("input1")
-            # input2 = self.get_cpu("input2")
-            # # print(self.PrevLayer[0].LayerName, "Input1: ", input1[0,0,0,:10])
-            # # print(self.PrevLayer[1].LayerName, "Input2: ", input2[0,0,0,:10])
-            # self.set_cpu("output", input1+input2)
-            # self.transfer_from_cpu("output")
-            # # if self.is_enclave_mode:
-            # #     self.transfer_cpu_to_enclave("output")
 
     def backward(self):
         return super().backward()

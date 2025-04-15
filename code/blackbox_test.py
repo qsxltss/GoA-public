@@ -89,15 +89,15 @@ print("recover_data prepared!")
 # Trainer
 blackmodel_args = TrainingArguments(
     output_dir=f"{args.blackbox_dir}",
-    eval_strategy='epoch',  # 每个epoch进行评估
+    eval_strategy='epoch',  
     logging_strategy='epoch',
-    save_strategy="epoch",  # 每个epoch保存
+    save_strategy="epoch", 
     learning_rate=args.recover_lr,
     per_device_train_batch_size=args.bs,
     per_device_eval_batch_size=args.bs,
     num_train_epochs=args.recover_epochs,
     weight_decay=args.weight_decay,
-    dataloader_num_workers=4,  # 使用数据加载器的并行线程
+    dataloader_num_workers=4, 
     seed=42,
 )
 def compute_metrics(eval_pred):

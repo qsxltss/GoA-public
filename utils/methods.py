@@ -17,8 +17,6 @@ def ob_translinkguard(model):
         if "query.weight" in name:
             w_q = module.data
             layer_name = name.rsplit(".")[3]
-            # 打乱行顺序
-            # 注意data的行列是反过来的：fc2.data = 768*3072
             num_rows = w_q.shape[1]
             rows = num_rows
             permutation = torch.randperm(num_rows)

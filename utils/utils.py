@@ -147,27 +147,20 @@ class CustomTrainer(Trainer):
 
 
 def row_restore_perm(pre_model_mat, model_mat, threshold=0.0):
-    # 将矩阵从GPU中转移到CPU并转为numpy数组
     model_mat_cpu = model_mat.cpu().numpy()
     pre_model_mat_cpu = pre_model_mat.cpu().numpy()
-    # 计算cosine similarity矩阵
     similarty_matrix = cosine_similarity(model_mat_cpu, pre_model_mat_cpu)
-    # 根据similarity_matrix找出每一行的最佳匹配
     perm = np.argmax(similarty_matrix, axis=1)
-    # 构建恢复的矩阵
     restored_matrix = np.empty_like(model_mat_cpu)
     success = []
     for i, row in enumerate(model_mat_cpu):
-        # 取这一行的最大similarity值
         max_similarity = similarty_matrix[i, perm[i]]
         if max_similarity >= threshold:
-            # 如果similarity大于等于阈值, 使用perm对应的行
             restored_matrix[perm[i]] = model_mat_cpu[i]
             success.append(perm[i])
     for i in range(len(restored_matrix)):
         if i not in success:
             restored_matrix[i] = pre_model_mat_cpu[i]
-    # 转换为PyTorch张量并移回GPU
     restored_matrix = torch.from_numpy(restored_matrix).to(model_mat.device)
     return perm, success, restored_matrix
 
@@ -205,11 +198,8 @@ def check_diff_perm(perm, true_perm):
         if perm[i] == true_perm[i]:
             tot += 1
     same_ratio = tot / len(perm)
-    #print(f"total same_ratio: {same_ratio}")
     return same_ratio
 
-# 检查similarity是否有异常
-# 有异常则替换为pre_model_mat
 def check_similarity(pre_model_mat, model_mat,threshold=0.8):
     similarty_matrix = cosine_similarity(model_mat, pre_model_mat)
     for i in range(len(similarty_matrix)):
@@ -223,10 +213,8 @@ def check_similarity(pre_model_mat, model_mat,threshold=0.8):
 
 
 def check_similar(model_mat,pre_model_mat, name=""):
-    # 将矩阵从GPU中转移到CPU并转为numpy数组
     model_mat_cpu = model_mat.cpu().numpy()
     pre_model_mat_cpu = pre_model_mat.cpu().numpy()
-    # 计算cosine similarity矩阵
     similarity_matrix = cosine_similarity(model_mat_cpu, pre_model_mat_cpu)
     # 初始化结果列表
     max_values = []
@@ -234,44 +222,32 @@ def check_similar(model_mat,pre_model_mat, name=""):
     mean_values = []
     max_positions = []
     second_max_positions = []
-    # 遍历每一行，计算最大值、第二大值和平均值
     for i, row in enumerate(similarity_matrix):
-        # 计算每行的平均值
         mean_value = np.mean(row)
-        # 找到每行的最大值和对应的位置
         max_value = np.max(row)
         max_pos = np.argmax(row)
-        # 将最大值位置的元素设为负无穷，以找到第二大值
         row[max_pos] = -np.inf
         second_max_value = np.max(row)
-        #second_max_pos = np.argmax(row)
-        # 恢复原始最大值
         row[max_pos] = max_value
-        # 将结果存入列表
         max_values.append(max_value)
         second_max_values.append(second_max_value)
         mean_values.append(mean_value)
-        #max_positions.append(max_pos)
-        #second_max_positions.append(second_max_pos)
     # 输出结果
     print("Row-wise Mean values:", np.mean(mean_values))
     print("Row-wise Max values:", np.mean(max_values))
-    #print("Row-wise Max positions:", np.mean(max_positions))
-    print("Row-wise Second Max values:", np.mean(second_max_values))
-    #print("Row-wise Second Max positions:", second_max_positions)   
+    print("Row-wise Second Max values:", np.mean(second_max_values))   
     return np.mean(mean_values), np.mean(max_values), np.mean(second_max_values)
 
 def check_distance(model_mat, pre_model_mat, name=""):
-    # 将数据一次性转换为 NumPy 数组
     model_mat_cpu = model_mat.cpu().numpy()
     pre_model_mat_cpu = pre_model_mat.cpu().numpy()
 
     max_values_l2 = []
     second_max_values_l2 = []
-    all_values_l2 = []  # 用于记录每一行与其他行的 L2 距离均值
+    all_values_l2 = [] 
     max_values_linf = []
     second_max_values_linf = []
-    all_values_linf = []  # 用于记录每一行与其他行的 Linf 距离均值
+    all_values_linf = [] 
     for i in range(model_mat_cpu.shape[0]):
         model_mat_cpu[i] = model_mat_cpu[i] / np.linalg.norm(model_mat_cpu[i], ord=2)
         pre_model_mat_cpu[i] = pre_model_mat_cpu[i] / np.linalg.norm(pre_model_mat_cpu[i], ord=2)
@@ -285,7 +261,6 @@ def check_distance(model_mat, pre_model_mat, name=""):
         max_values_l2.append(max_value_l2)
         max_values_linf.append(max_value_linf)
 
-        # 向量化计算所有行之间的 L2 和 Linf 距离
         diffs_l2 = np.linalg.norm(pre_model_mat_cpu - row1, axis=1, ord=2)
         diffs_linf = np.max(np.abs(pre_model_mat_cpu - row1), axis=1)
         
@@ -294,12 +269,11 @@ def check_distance(model_mat, pre_model_mat, name=""):
         all_values_l2.append(mean_value_l2)
         all_values_linf.append(mean_value_linf)
         
-        # 排除自己与自己计算的距离
         diffs_l2[i] = np.inf
         diffs_linf[i] = np.inf
         
-        second_min_value_l2 = np.min(diffs_l2)  # 第二小 L2 距离
-        second_min_value_linf = np.min(diffs_linf)  # 第二小 L∞ 距离
+        second_min_value_l2 = np.min(diffs_l2)  
+        second_min_value_linf = np.min(diffs_linf) 
 
         second_max_values_l2.append(second_min_value_l2)
         second_max_values_linf.append(second_min_value_linf)

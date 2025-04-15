@@ -95,9 +95,9 @@ print("Building model..")
 if model_name == "bert":
     set_seed()
     model = AutoModelForSequenceClassification.from_pretrained(
-        weight_dir,  # 指定权重文件所在的目录
+        weight_dir,  
         num_labels=num_labels,
-        use_safetensors=True  # 添加这一行，以明确使用 safetensors 格式
+        use_safetensors=True  
     )
 else:
     # vit and gpt2 will be added soon
@@ -106,8 +106,8 @@ else:
 
 training_args = TrainingArguments(
     output_dir=f"{args.output_dir}/{args.obfus}/{args.dataset}",
-    eval_strategy='no',  # 模型的评估频率
-    save_strategy="epoch",  # 模型的保存频率
+    eval_strategy='no',  
+    save_strategy="epoch",  
     learning_rate=args.lr,
     per_device_train_batch_size=args.bs,
     per_device_eval_batch_size=args.bs,

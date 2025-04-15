@@ -27,12 +27,6 @@ def make_token():
         "I believe the meaning of life is",
     ]
 
-    # prompts = [
-    #     "What do you think of life? I am an optimist. I believe the meaning of life is " +
-    #     "What do you think of life? I am an optimist. I believe the meaning of life is " +
-    #     "What do you think of life? I am an optimist. I believe the meaning of life is " +
-    #     "What do you think of life? I am an optimist. I believe the meaning of life is "
-    # ]
 
     prompt_tokens = [tokenizer.encode(x, bos=True, eos=False) for x in prompts]
 
@@ -43,7 +37,6 @@ def make_token():
     # assert max_prompt_len <= model.params.max_seq_len
     assert max_prompt_len <= 128
     max_gen_len = 64
-    # total_len = min(model.params.max_seq_len, max_gen_len + max_prompt_len)
     total_len = min(128, max_gen_len + max_prompt_len)
 
     pad_id = tokenizer.pad_id
@@ -65,8 +58,8 @@ class ModelArgs:
     n_layers: int = 32
     n_heads: int = 32
     n_kv_heads: Optional[int] = None
-    vocab_size: int = -1  # defined later by tokenizer
-    multiple_of: int = 256  # make SwiGLU hidden layer size multiple of large power of 2
+    vocab_size: int = -1  
+    multiple_of: int = 256  
     ffn_dim_multiplier: Optional[float] = None
     norm_eps: float = 1e-5
 
@@ -76,11 +69,6 @@ class ModelArgs:
 
 def load_llama(ckpt_dir, tokenizer_path):
     start_time = time.time()
-    # checkpoints = sorted(Path(ckpt_dir).glob("*.pth"))
-    # assert len(checkpoints) > 0, f"no checkpoint files found in {ckpt_dir}"
-
-    # ckpt_path = checkpoints[0]
-    # checkpoint = torch.load(ckpt_path, map_location="cpu")
     with open(Path(ckpt_dir) / "params.json", "r") as f:
         params = json.loads(f.read())
 
@@ -93,7 +81,6 @@ def load_llama(ckpt_dir, tokenizer_path):
     model_args.vocab_size = tokenizer.n_words
     torch.set_default_tensor_type(torch.cuda.HalfTensor)
     model = Transformer(model_args)
-    # model.load_state_dict(checkpoint, strict=False)
     print(f"Loaded in {time.time() - start_time:.2f} seconds")
     
     return model, tokenizer
@@ -142,11 +129,7 @@ if __name__ == "__main__":
     tokens = torch.full((bsz, total_len), pad_id, dtype=torch.long, device="cuda")
     for k, t in enumerate(prompt_tokens):
         tokens[k, : len(t)] = torch.tensor(t, dtype=torch.long, device="cuda")
-        
-    # st()
-
-    # prev_pos, cur_pos = 0, 8
-    # logits = model(tokens[:, prev_pos:cur_pos], start_pos=0)
+    
 
     cur_tokens = make_token()
     logits = model(cur_tokens, start_pos=0)

@@ -140,7 +140,6 @@ class SecretAttentionMultiply(SecretLayerBase):
         with NamedTimerInstance(
             f"S{self.sid}: {self.LayerName} Forward", verbose_level=VerboseLevel.LAYER
         ):
-            #with NamedTimerInstance(f"          S{self.sid}: {self.LayerName} Forward Tensor Transfer", verbose_level=VerboseLevel.LAYER):
             self.forward_tensor_transfer()
                 
             if self.EnclaveMode == ExecutionModeOptions.CPU:
@@ -154,7 +153,6 @@ class SecretAttentionMultiply(SecretLayerBase):
             else:
                 raise RuntimeError("Attention multiply not implemented for Enclave mode")
             if self.EnclaveMode == ExecutionModeOptions.CPU:
-                #with NamedTimerInstance(f"          S{self.sid}: {self.LayerName} Recover Process", verbose_level=VerboseLevel.LAYER):
                 if self.recover:
                     xq = recover(xq, self.X, self.deshuffle1, self.mask_vector1,  self.otp1, self.scale1_1, self.scale2_1)
                     xk = recover(xk, self.X, self.deshuffle2, self.mask_vector2, self.otp2, self.scale1_2, self.scale2_2)
@@ -208,40 +206,6 @@ class SecretAttentionMultiply(SecretLayerBase):
             else:
                 raise RuntimeError("Attention multiply not implemented for Enclave mode")
 
-            # # self.forward_tensor_transfer will make tensors to float type, but embedding needs int/long
-            # # manually change tensor type
-            # self.set_gpu("input", self.get_gpu("input").type(torch.long))
-            # self.set_cpu("input", self.get_cpu("input").type(torch.long))
-            
-            # # self.requires_grad_on_cpu("input")
-            # if self.EnclaveMode == ExecutionModeOptions.Enclave:
-            #     raise RuntimeError(
-            #         "Embedding in SGX is not checked, recommend to use GPU for embedding"
-            #     )
-            #     if self.PrevLayer.EnclaveMode is not ExecutionModeOptions.Enclave:
-            #         self.transfer_enclave_to_cpu("input")
-            #         if torch.sum(self.get_cpu("input").abs()) == 0:
-            #             raise RuntimeError(f"{self.LayerName}: SGX input not load")
-            #         self.transfer_cpu_to_enclave("input")
-            #     self.transfer_enclave_to_cpu("input")
-            #     self.set_cpu("output", self.ForwardFunc(self.get_cpu("input")))
-            #     self.transfer_cpu_to_enclave("output")
-            # elif self.EnclaveMode == ExecutionModeOptions.CPU:
-            #     if (
-            #         self.PrevLayer.EnclaveMode is not ExecutionModeOptions.CPU and 
-            #         torch.sum(self.get_cpu("input").abs()) == 0
-            #     ):
-            #         raise RuntimeError(f"{self.LayerName}: SGX input not load")
-            #     self.set_cpu("output", self.ForwardFunc(self.get_cpu("input")))
-            # elif self.EnclaveMode == ExecutionModeOptions.GPU:
-            #     if (
-            #         self.PrevLayer.EnclaveMode is not ExecutionModeOptions.GPU and 
-            #         torch.sum(self.get_gpu("input").abs()) == 0
-            #     ):
-            #         raise RuntimeError(f"{self.LayerName}: SGX input not load")
-            #     self.set_gpu("output", self.ForwardFunc(self.get_gpu("input")))
-            # else:
-            #     raise RuntimeError
 
     def print_connection_info(self):
         input_info = ""
