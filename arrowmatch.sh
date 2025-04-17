@@ -23,7 +23,7 @@ done
 
 python code/arrowmatch.py \
     --gpus "$GPUS" \
-    --dataset "$DATASET" \\
+    --dataset "$DATASET" \
     --weight_dir "$WEIGHT_DIR" \
     --restore_dir "$RESTORE_DIR" \
     --obfus "$OBFUS"
