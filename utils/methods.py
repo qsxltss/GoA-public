@@ -529,6 +529,7 @@ def ob_arrowcloak(model):
         elif "output.dense.weight" in name or "intermediate.dense.weight" in name:
             w_proj = module.data
             num_rows = w_proj.shape[0]
+            print(f"{name}: {num_rows}")
             device = w_proj.device
             coeff = torch.randint(0,5,(w_proj.shape[0],), device=device)
             mask = torch.matmul(w_proj.T, coeff.float())
@@ -549,4 +550,5 @@ def ob_arrowcloak(model):
             layer_permutations[name] = permutation
             w_proj = w_proj[permutation]
             module.data = w_proj
+    st()
     return model, layer_permutations, layer_masks, layer_factors, weight_factors

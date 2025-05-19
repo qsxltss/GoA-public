@@ -27,7 +27,6 @@ pip install torch==1.11.0+cu113 torchvision==0.12.0+cu113 -f https://mirrors.ali
     * arrowcloak.py
 * **train:**
     * train.py
-* **tee:** The code for sgx experiments
 
 
 
@@ -68,20 +67,4 @@ Make sure the training results from public have been saved.
 **Test black-box baseline:** The results of finetuning public model with recovery dataset, which represents the situation that adversary can not get any private information.
 ```
 ./blackbox_test.sh --gpus 0,1 --dataset sst2 --obfus translinkguard
-```
-
-### Try SGX experiment
-
-**NOTE**: The code can only run on a machine with SGX hardware, so please **Make sure your hardware supports SGX.**
-
-```
-cd tee
-
-conda env create -f tee_environment.yml
-
-conda activate tee_environment
-
-make 
-
-./tee_code/run.sh
 ```

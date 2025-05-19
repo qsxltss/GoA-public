@@ -95,6 +95,7 @@ model = AutoModelForSequenceClassification.from_pretrained(
     use_safetensors=True 
 )
 
+
 print("Loading metric..")
 metric = evaluate.load('glue', actual_task)
 
